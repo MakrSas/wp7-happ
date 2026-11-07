@@ -1,0 +1,131 @@
+<phone:PhoneApplicationPage
+    x:Class="HappWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:local="clr-namespace:HappWP"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <local:VisibleIf x:Key="VisibleIf"/>
+        <local:AccentIf x:Key="AccentIf"/>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <controls:Pivot x:Name="MainPivot" Title="HAPP">
+
+            <!-- ============================================================ подключение -->
+            <controls:PivotItem Header="подключение">
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,48">
+                        <TextBlock x:Name="StateText" Text="отключено" FontSize="56"
+                                   FontFamily="{StaticResource PhoneFontFamilySemiLight}" Margin="12,-6,12,0"/>
+                        <TextBlock x:Name="StateHint" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"
+                                   Text="выберите сервер и включите VPN" Margin="12,0,12,24"/>
+
+                        <toolkit:ToggleSwitch x:Name="VpnSwitch" Header="VPN"/>
+
+                        <TextBlock Text="Сервер" Style="{StaticResource LabelStyle}"/>
+                        <StackPanel x:Name="ServerBox" Margin="12,0,12,24" Background="Transparent">
+                            <TextBlock x:Name="ServerName" Text="не выбран" Style="{StaticResource PhoneTextLargeStyle}"
+                                       Margin="0" TextTrimming="WordEllipsis"/>
+                            <TextBlock x:Name="ServerInfo" Text="нажмите, чтобы выбрать" Style="{StaticResource PhoneTextSubtleStyle}" Margin="0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Трафик" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock x:Name="TrafficText" Text="—" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,12,24"/>
+
+                        <TextBlock x:Name="ErrorText" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"
+                                   Foreground="{StaticResource PhoneAccentBrush}" Margin="12,0,12,24" Visibility="Collapsed"/>
+
+                        <Button x:Name="DiagButton" Content="проверить" HorizontalAlignment="Stretch"/>
+                        <TextBlock x:Name="DiagText" FontFamily="Courier New" FontSize="15" TextWrapping="Wrap" Margin="12,0,12,24"
+                                   Visibility="Collapsed"/>
+
+                        <TextBlock Text="прокси Wi-Fi" Style="{StaticResource GroupStyle}"/>
+                        <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap" Margin="12,0,12,12"
+                                   Text="VPN работает как прокси на самом телефоне. Чтобы через него шли браузер и приложения, один раз укажите его в настройках сети:"/>
+                        <TextBlock x:Name="ProxyText" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap" Margin="12,0,12,0"
+                                   Text="Настройки → Wi-Fi → ваша сеть → прокси: вкл, сервер 127.0.0.1, порт 10809"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:PivotItem>
+
+            <!-- ============================================================ серверы -->
+            <controls:PivotItem Header="серверы">
+                <Grid>
+                    <TextBlock x:Name="EmptyText" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap" Margin="12,0,12,0"
+                               Text="Серверов пока нет. Вставьте ссылку на подписку в «настройках» и обновите её."/>
+                    <ListBox x:Name="ServerList" Margin="0,0,-12,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="12,0,0,20">
+                                    <TextBlock Text="{Binding GroupHeader}" Style="{StaticResource PhoneTextGroupHeaderStyle}"
+                                               Foreground="{StaticResource PhoneAccentBrush}" Margin="0,8,0,12"
+                                               Visibility="{Binding GroupHeader, Converter={StaticResource VisibleIf}}"/>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextLargeStyle}" Margin="0"
+                                               Opacity="{Binding TitleOpacity}"
+                                               Foreground="{Binding Selected, Converter={StaticResource AccentIf}}"/>
+                                    <TextBlock Text="{Binding Subtitle}" Style="{StaticResource PhoneTextSubtleStyle}" Margin="0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:PivotItem>
+
+            <!-- ============================================================ настройки -->
+            <controls:PivotItem Header="настройки">
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,48">
+                        <TextBlock Text="Ссылка на подписку" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="SubBox" InputScope="Url"/>
+                        <Button x:Name="UpdateButton" Content="обновить подписку" HorizontalAlignment="Stretch"/>
+                        <TextBlock x:Name="SubStatus" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"
+                                   Text="подписка ещё не загружалась" Margin="12,0,12,24"/>
+
+                        <toolkit:ToggleSwitch x:Name="DaemonSwitch" Header="Работать при закрытом приложении"/>
+                        <TextBlock Style="{StaticResource HintStyle}"
+                                   Text="Запускает фоновый процесс happd.exe. Если прошивка не даёт его запустить, VPN работает, пока открыто приложение."/>
+
+                        <toolkit:ToggleSwitch x:Name="AutoProxySwitch" Header="Прокси Wi-Fi автоматически"/>
+                        <TextBlock x:Name="AutoProxyHint" Style="{StaticResource HintStyle}"
+                                   Text="Включите прокси в сети один раз руками — дальше Happ сам ставит его при включении VPN, убирает при выключении и следит за адресом телефона."/>
+
+                        <toolkit:ToggleSwitch x:Name="MitmSwitch" Header="Современный HTTPS в Internet Explorer"/>
+                        <TextBlock Style="{StaticResource HintStyle}"
+                                   Text="IE9 умеет только устаревший TLS 1.0, и многие сайты его не пускают. Happ сам говорит с сайтом по TLS 1.3, а IE — по TLS 1.0 со своим сертификатом. Для этого один раз установите корневой сертификат Happ: он создан на этом телефоне и никуда не передаётся."/>
+                        <Button x:Name="CertButton" Content="установить сертификат" HorizontalAlignment="Stretch"/>
+                        <TextBlock x:Name="CertStatus" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap" Margin="12,0,12,24"
+                                   Text="откроется в Internet Explorer; VPN и прокси Wi-Fi должны быть включены"/>
+
+                        <TextBlock Text="Порт прокси" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="PortBox" InputScope="Number" MaxLength="5"/>
+
+                        <TextBlock Text="Устройство у провайдера (HWID)" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="HwidBox"/>
+
+                        <TextBlock Text="о программе" Style="{StaticResource GroupStyle}" Margin="12,36,12,6"/>
+                        <TextBlock x:Name="AboutText" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap"
+                                   Text="Happ для Windows Phone 7.8, версия {0}. Протоколы: Trojan поверх TLS. VLESS Reality — в следующей версии."/>
+                        <TextBlock x:Name="NativeText" Style="{StaticResource PhoneTextSubtleStyle}" TextWrapping="Wrap" Margin="12,12,12,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" Mode="Minimized" Opacity="0.99">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.sync.rest.png" Text="подписка" Click="Update_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.refresh.rest.png" Text="пинг" Click="Ping_Click"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

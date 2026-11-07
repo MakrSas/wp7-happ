@@ -1,0 +1,26 @@
+<Application
+    x:Class="HappWP.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone">
+
+    <Application.Resources>
+        <!-- Подзаголовок под переключателем, как в «Настройках». -->
+        <Style x:Key="HintStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextSubtleStyle}">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="12,-18,12,24"/>
+        </Style>
+        <Style x:Key="GroupStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextLargeStyle}">
+            <Setter Property="Margin" Value="12,12,12,6"/>
+        </Style>
+        <Style x:Key="LabelStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextSubtleStyle}">
+            <Setter Property="Margin" Value="12,8,12,0"/>
+        </Style>
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <shell:PhoneApplicationService
+            Launching="Application_Launching" Closing="Application_Closing"
+            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+    </Application.ApplicationLifetimeObjects>
+</Application>
