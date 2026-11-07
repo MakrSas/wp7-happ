@@ -1,2 +1,7 @@
+# Сборки и журналы телефона (в журналах — личные данные)
 build/
 logs/
+secrets/
+__pycache__/
+.DS_Store
+*.part
