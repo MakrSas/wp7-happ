@@ -2,7 +2,7 @@
 // свойство, событие или attached-свойство, ключи StaticResource — из темы телефона или из словарей.
 // Запускается в mono на сборочной машине: телефон XAML не валидирует при сборке, а падает при старте.
 //
-//   mono xamlcheck.exe <ref-dir> <lib-dir> <SimEmu.dll> file.xaml...
+//   mono xamlcheck.exe <ref-dir> <lib-dir> <HappWP.dll> file.xaml...
 using System;
 using System.Collections.Generic;
 using System.IO;

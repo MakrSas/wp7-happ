@@ -49,7 +49,7 @@ VPN-клиент для подписок Happ / Remnawave. В WP7 нет VPN API
 (`tools/sub_pick.py` достаёт Trojan-серверы из подписки, не печатая паролей).
 
 ```
-./build.sh remote xap            # отладочная сборка: журнал уходит на мак (сервер раздачи XAP — репозиторий htc-hd7-xapserver)
+./build.sh remote xap            # отладочная сборка
 ./build.sh remote xap release    # релиз → release/HappWP-<версия>.xap
 ```
 

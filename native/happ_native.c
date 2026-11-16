@@ -423,7 +423,7 @@ static HRESULT WINAPI hn_Diag(HappNative *self, BSTR *out)
     return S_OK;
 }
 
-/* POST текста по http:// своим сокетом — мимо прокси Wi-Fi (журнал на мак). status — HTTP-код или -1. */
+/* POST текста по http:// своим сокетом, мимо прокси Wi-Fi. status — HTTP-код или -1. */
 static HRESULT WINAPI hn_Post(HappNative *self, LPCWSTR url, LPCWSTR text, int *status)
 {
     char *u = utf8(url), *body = utf8(text), host[256], hdr[1024], resp[256];

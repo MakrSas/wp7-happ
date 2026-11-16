@@ -134,7 +134,6 @@ namespace HappWP
                 NativeProbe.Full(obj);
                 full = true;
                 Log.Write("native: готово, версия " + Version);
-                Log.Flush();
             }
             catch (Exception e)
             {

@@ -86,7 +86,7 @@ namespace HappWP
 #if RELEASE
                         "Сделайте снимок экрана — по нему видно, что сломалось.\n\n" +
 #else
-                        "Журнал уже отправлен на мак.\n\n" +
+                        "Журнал сохранён на телефоне.\n\n" +
 #endif
                         Log.Describe(ex) + "\n\nжурнал:\n" + Log.Session,
                     FontSize = 16, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 24, 0, 0),

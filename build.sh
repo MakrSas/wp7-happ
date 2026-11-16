@@ -4,7 +4,7 @@
 #   ./build.sh linux            — happd для Linux (проверка ядра с компьютера)
 #   ./build.sh ce               — happd.exe и нативная DLL для HD7
 #   ./build.sh xap [release]    — всё приложение: build/HappWP.xap
-#   ./build.sh remote <цель>    — с мака: залить исходники на s8build, собрать там и забрать XAP
+#   ./build.sh remote <цель>    — залить исходники на s8build, собрать там и забрать XAP
 set -euo pipefail
 
 WP7=${WP7:-/mnt/mui/wp7sdk}

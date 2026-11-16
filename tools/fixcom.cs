@@ -1,7 +1,7 @@
 // После mcs: конструктор ComImport-класса делаем как у csc — «runtime managed internalcall».
 // mcs оставляет «cil managed internalcall», а свой конструктор у ComImport-класса объявить не даёт.
 //
-//   mono fixcom.exe <ref-dir> <lib-dir> SimEmu.dll
+//   mono fixcom.exe <ref-dir> <lib-dir> HappWP.dll
 using System;
 using Mono.Cecil;
 
